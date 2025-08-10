@@ -1,9 +1,9 @@
 # CourtRoom
 
-#Overview
+# Overview
 A small web utility to fetch and display case metadata and latest orders/judgments from the Delhi High Court public site. The MVP uses a manual CAPTCHA flow: the app fetches the search form and CAPTCHA image, you enter the CAPTCHA, and it returns parsed case details.
 
-#Key features
+# Key features
 
 Inputs: Case Type, Case Number, Filing Year
 
