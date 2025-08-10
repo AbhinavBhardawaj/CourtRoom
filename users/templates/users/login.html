@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %} Login - CourtRoom {% endblock %}
+
+{% block content %}
+    <nav class="flex flex-wrap items-center justify-between bg-black px-6 py-3">
+        <a href="{% url "home" %}">
+            <img src="{% static "logo.png" %}" alt="" class="h-10">
+        </a>
+        <h1 class='px-4 text-4xl text-[#E50914] font-netflix tracking-wide font-semibold'>CourtRoom</h1>
+        <div class="flex justify-evenly items-center gap-7 text-white-700 rounded">
+            <a href="{% url "login" %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border-1 border-red-500">Login</a>
+            <a href="{% url "signup" %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border-1 border-red-500">Sign up</a>
+        </div>
+    </nav>
+    
+    <div class="flex justify-center ">
+        <div style="width: 425px;" class="flex justify-center mt-10 mx-auto bg-[#ffffff0d] border border-[#3D3D3D] rounded-2xl p-6 px-5 py-4 text-white text-center">
+            <div>
+                <h1 class="text-2xl flex justify-center">Welcome back to</h1>
+                <h1 class='text-[#E50914] text-4xl'>CourtRoom</h1>
+                <div class="flex justify-center mt-10">
+                    <div style=" width: 220px;" class=" px-2 py-3 flex  gap-5 rounded-lg items-center   bg-[#ffffff0d] border border-[#3D3D3D]  hover:bg-gray-200  transition duration-300">
+                        <img src="{% static "google.png" %}" alt="" class="h-8">
+                        {% comment %} <h1 class="font-bold">Sign in with Google</h1> {% endcomment %}
+                        <a href="{% provider_login_url 'google' %}" class="font-bold">Sign in with Google</a>
+                    </div>
+                </div>   
+                <div class="text-gray-500 mt-5">
+                    <h1>.............. Or, sign in with your email ..............</h1>
+                </div> 
+
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-red-400 text-sm mb-2">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
+
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    
+
+                    <div class="relative w-full max-w-sm mt-4">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <i class="fa-solid fa-envelope relative"></i> 
+                        </div>
+                        <input name="email" type="email" placeholder="madhavmsihra@gmail.com" class="w-full pl-10 pr-3 py-2 rounded-xl border border-gray-500 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-blue-500">   
+                    </div>
+                    <div class="relative w-full max-w-sm mt-4">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa-solid fa-lock"></i> 
+                        </div>
+                        <input name="password" id="password1" type="password" placeholder="••••••" class="w-full pl-10 pr-10 py-2 rounded-xl border border-gray-500 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-blue-500" />
+                    
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 cursor-pointer">
+                            <i id="toggleIcon1" class="fa-solid fa-eye-slash"></i>
+                        </div>
+                        
+                    </div>
+                    <div class="mt-2 text-[#E50914] flex">
+                        <a href="{% url "forgotpswd" %}">Forgot Password?</a>
+                    </div>
+                    <div class="mt-10 px-2 py-2 rounded-xl border-gray-200 bg-[#E50914] hover:bg-red-500">
+                        <button type="submit">Login</button>
+                    </div>
+                </form>
+                <div class="flex justify-center mt-5">
+                    <h1>Don't have an account?</h1>
+                    <a href="{% url "signup" %}" class="text-[#E50914]">Register</a>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+        
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'Users/toggle.js' %}"></script>
+{% endblock %}

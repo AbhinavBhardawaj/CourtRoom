@@ -1,0 +1,201 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load socialaccount %}
+{% block title %}CourtRoom{% endblock %}
+
+{% block content %}
+    <nav class="flex flex-wrap items-center justify-between bg-black px-6 py-3">
+        <a href="{% url "home" %}">
+            <img src="{% static "logo.png" %}" alt="" class="h-10">
+        </a>
+        <h1 class='px-4 text-4xl text-[#E50914] font-netflix tracking-wide font-semibold'>CourtRoom</h1>
+
+        {% if user.is_authenticated %}
+            <div class="relative inline-block text-left">
+                <button id="profilebtn" onclick="toggleDropdown()" class="focus:outline-none">
+                    <img src="{% if user.socialaccount_set.first %}{{user.socialaccount_set.first.get_avatar_url}}{% else  %}{{user.profile_pic.url}}{% endif %}" alt="Profile" class="rounded-full w-12 h-12 object-cover border-2 border-gray-600">
+                </button>
+
+                <!--drop down bhaiya-->
+                <div id="profiledropdown" class="opacity-0 scale-95 pointer-events-none transition trasnform duration-200 ease-out absolute right-0 mt-2 w-40 bg-[#121212] rounded-lg border z-50">
+                    {% comment %} <div class="flex  items-center px-4 py-2 hover:bg-gray-100 gap-1">
+                        <i class="fa-solid fa-user text-gray-800  text-base"></i>
+                        <a href="{% url 'profile' %}" class="text-violet-500">Profile</a>
+                    </div> {% endcomment %}
+
+                    <div class="flex items-center px-4 py-2 gap-1 hover:bg-red-100">
+                        <i class="fa-solid fa-right-from-bracket text-red-600 "></i>
+                        <form action="{% url 'logout' %}" method = "POST">
+                            {% csrf_token %}
+                            <button type="submit" class="text-red-600">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>    
+        {% else %}
+            <div class="flex justify-evenly items-center gap-7 text-white-700 rounded">
+                <a href="{% url 'login' %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border-1 border-red-500">Login</a>
+                <a href="{% url "signup" %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border-1 border-red-500">Sign up</a>
+            </div>
+        {% endif %}
+    </nav>
+    
+    <div class="relative min-h-screen flex items-center justify-center">
+
+        <div class="absolute inset-0 bg-cover bg-center opacity-40 z-0" 
+        style="background-image: url('{% static "courtbg.jpg" %}')">
+        </div>
+
+        <!-- Hero Section -->
+        <section class="relative z-10  text-white min-h-screen flex flex-col justify-center items-center text-center px-4">
+            <h2 class="text-6xl font-bold mb-4">Welcome to CourtRoom</h2>
+            <p class="max-w-lg mb-8 text-lg px-6">
+                Instant, Centralized Access to Indian Court Case Data & Judgments
+            </p>
+            <div class="flex gap-6">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'case_search' %}" class="bg-[#E50914] px-6 py-3 rounded text-white font-semibold hover:bg-red-600 transition">Get Started</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bg-[#E50914] px-6 py-3 rounded text-white font-semibold hover:bg-red-600 transition">Get Started</a>
+                {% endif %}
+                <a href="#about" class="bg-gray-700 px-6 py-3 rounded text-white font-semibold hover:bg-gray-600 transition">Learn More</a>
+            </div>
+
+        </section>
+    </div>
+
+    <section class="py-12 bg-gray-800 bg-opacity-80 text-white">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <span class="inline-block mb-2 text-4xl">🔎</span>
+                <h3 class="font-bold text-lg mb-2">Quick Search</h3>
+                <p class="text-sm opacity-80">Find court cases fast by type & number.</p>
+            </div>
+
+            <div>
+                <span class="inline-block mb-2 text-4xl">📄</span>
+                <h3 class="font-bold text-lg mb-2">Download Judgments</h3>
+                <p class="text-sm opacity-80">One-click access to official court documents.</p>
+            </div>
+
+            <div>
+                <span class="inline-block mb-2 text-4xl">🔒</span>
+                <h3 class="font-bold text-lg mb-2">Privacy</h3>
+                <p class="text-sm opacity-80">No data shared, secure and confidential.</p>
+            </div>
+            
+            <div>
+                <span class="inline-block mb-2 text-4xl">⚡</span>
+                <h3 class="font-bold text-lg mb-2">Simple Dashboard</h3>
+                <p class="text-sm opacity-80">Easy to use, modern interface.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-gray-800 bg-opacity-80 text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-semibold mb-8">How It Works</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-6 md:gap-0 md:space-x-12">
+                <div class="flex flex-col items-center">
+                    <div class="bg-red-700 rounded-full w-14 h-14 flex items-center justify-center text-white font-bold text-xl mb-3">1</div>
+                    <p class="max-w-xs">Login / Sign Up</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-red-700 rounded-full w-14 h-14 flex items-center justify-center text-white font-bold text-xl mb-3">2</div>
+                    <p class="max-w-xs">Enter Court Details</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-red-700 rounded-full w-14 h-14 flex items-center justify-center text-white font-bold text-xl mb-3">3</div>
+                    <p class="max-w-xs">Get Results & Download</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id = "about" class="py-12  bg-opacity-90 text-white max-w-4xl mx-auto px-4 rounded">
+        <h2 class="text-3xl font-semibold mb-6">About CourtRoom</h2>
+        <p class="mb-4">
+            CourtRoom is a tool for instant access to Indian court case metadata and official orders. Designed for legal professionals, researchers, and the public to find details and recent judgments from select courts.
+        </p>
+        <ul class="list-disc ml-6 mb-6">
+            <li>Fetches official data from Indian court portals</li>
+            <li>Easy-to-use modern dashboard built with Django & TailwindCSS</li>
+            <li>Open source (<a href="https://github.com/your-repo" class="underline text-blue-400" target="_blank">GitHub</a>)</li>
+        </ul>
+    </section>
+
+    <button id="backToTopBtn" 
+    class=" flex items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 translate-y-6/2 bg-[#E50914] text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-opacity opacity-0 pointer-events-none z-50">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
+    <footer class="bg-black text-gray-300 py-8">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-red-600 font-bold text-lg">
+                    CourtRoom
+                </span> &copy; 2025
+            </div>
+            
+            <nav class="space-x-6">
+                <a href="#about" class="hover:text-white transition">About</a>
+                <a href="{% url 'privacy' %}" class="hover:text-white transition">Privacy</a>
+                <a href="{% url 'contact' %}" class="hover:text-white transition">Contact</a>
+                <a href="https://github.com/your-repo" target="_blank" class="hover:text-white transition flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.476 2 2 6.486 2 12.017c0 4.424 2.865 8.187 6.839 9.513.5.092.682-.213.682-.476 0-.234-.009-.855-.013-1.678-2.782.605-3.369-1.342-3.369-1.342-.454-1.157-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.004.07 1.532 1.031 1.532 1.031.893 1.534 2.341 1.09 2.91.833.091-.65.349-1.09.635-1.342-2.22-.252-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.27.098-2.647 0 0 .84-.27 2.75 1.025a9.564 9.564 0 0 1 2.5-.34 9.5 9.5 0 0 1 2.5.34c1.91-1.294 2.75-1.025 2.75-1.025.545 1.377.202 2.394.099 2.647.64.7 1.03 1.595 1.03 2.688 0 3.847-2.337 4.695-4.566 4.943.359.31.678.923.678 1.86 0 1.343-.012 2.426-.012 2.755 0 .265.18.572.688.475A10.018 10.018 0 0 0 22 12.017C22 6.486 17.523 2 12 2z" />
+                    </svg>
+                    GitHub
+                </a>
+            </nav>
+        </div>
+    </footer>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const backToTopBtn = document.getElementById("backToTopBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove("opacity-0", "pointer-events-none");
+            } else {
+                backToTopBtn.classList.add("opacity-0", "pointer-events-none");
+            }
+        });
+
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        function toggleDropdown(){
+            console.log("dropdown");
+            const dropdown = document.getElementById("profiledropdown");
+            
+            if(dropdown.classList.contains("opacity-0")){
+                dropdown.classList.remove("opacity-0","scale-95","pointer-events-none");
+                dropdown.classList.add("opacity-100","scale-100");
+        
+            }
+            else{
+                dropdown.classList.remove("opacity-100","scale-100");
+                dropdown.classList.add("opacity-0","scale-95","pointer-events-none");
+            }
+        }
+        
+        window.addEventListener('click',function(e){
+            const button = document.getElementById('profilebtn');
+            const dropdown = document.getElementById('profiledropdown');
+        
+            if(!button.contains(e.target) && !dropdown.contains(e.target) ){
+                dropdown.classList.remove("opacity-100","scale-100");
+                dropdown.classList.add("opacity-0","scale-95","pointer-events-none");
+            }
+        });
+    </script>
+
+{% endblock %}

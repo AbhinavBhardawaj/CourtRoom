@@ -1,0 +1,70 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CourtRoom{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="flex flex-wrap items-center justify-between bg-black px-6 py-3">
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="flex items-center">
+            <i class="fas fa-gavel text-[#E50914] text-2xl mr-2"></i>
+            <img src="{% static 'logo.png' %}" alt="CourtRoom Logo" class="h-10">
+        </a>
+
+        <!-- Brand -->
+        <h1 class="px-4 text-4xl text-[#E50914] font-semibold tracking-wide">CourtRoom</h1>
+
+        <!-- Links -->
+        <div class="flex items-center gap-4">
+            <a href="{% url 'case_search' %}" class="text-white hover:text-[#E50914] transition">
+                <i class="fas fa-search mr-1"></i> Search Cases
+            </a>
+            <a href="{% url 'query_history' %}" class="text-white hover:text-[#E50914] transition">
+                <i class="fas fa-history mr-1"></i> History
+            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'admin:index' %}" class="text-white hover:text-[#E50914] transition">
+                    <i class="fas fa-user-shield mr-1"></i> Admin
+                </a>
+                <a href="{% url 'logout' %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border border-red-500 text-white">
+                    <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border border-red-500 text-white">
+                    <i class="fas fa-sign-in-alt mr-1"></i> Login
+                </a>
+                <a href="{% url 'signup' %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border border-red-500 text-white">
+                    <i class="fas fa-user-plus mr-1"></i> Sign Up
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-6 flex-grow">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 rounded 
+                            {% if message.tags == 'error' %}bg-red-100 text-red-700
+                            {% elif message.tags == 'success' %}bg-green-100 text-green-700
+                            {% else %}bg-gray-100 text-gray-700{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

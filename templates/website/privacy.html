@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}CourtRoom{% endblock %}
+
+{% block content %}
+    <nav class="flex flex-wrap items-center justify-between bg-black px-6 py-3">
+        <a href="{% url "home" %}">
+            <img src="{% static "logo.png" %}" alt="" class="h-10">
+        </a>
+        <h1 class='px-4 text-4xl text-[#E50914] font-netflix tracking-wide font-semibold'>CourtRoom</h1>
+        <div class="flex justify-evenly items-center gap-7 text-white-700 rounded">
+            <a href="{% url "login" %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border-1 border-red-500">Login</a>
+            <a href="{% url "signup" %}" class="rounded bg-red-700 px-4 py-2 hover:bg-violet-500 border-1 border-red-500">Sign up</a>
+        </div>
+    </nav>
+
+    <section class="py-12 bg-gray-900 text-white max-w-3xl mx-auto px-4 rounded my-12">
+        <h2 class="text-3xl font-semibold mb-6">Privacy Policy</h2>
+        <p class="mb-4">
+            <strong>Your privacy is important to us.</strong> CourtRoom does not require or collect any sensitive personal information from users. The only information stored is what is necessary to provide and improve the case lookup service.
+        </p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">What We Log</h3>
+        <ul class="list-disc ml-6 mb-6">
+            <li>User queries: When you search for a case, the type, number, and year are anonymously logged to monitor usage and improve performance.</li>
+            <li>Technical information: Non-identifying data such as browser type and access times may be automatically collected for security and analytics.</li>
+        </ul>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">No Personal Data Collected</h3>
+        <p class="mb-6">
+            We do not require sign-up with real names, emails, or identifying details. No personal information is sold, shared, or disclosed to third parties, except as required by law.
+        </p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">Cookies</h3>
+        <p class="mb-6">
+            This website may use basic cookies or session storage for authentication (if user accounts are enabled) and user experience. We do not use cookies for advertising, profiling, or third-party marketing.
+        </p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">Third-Party Links</h3>
+        <p class="mb-6">
+            CourtRoom may link to external Indian court websites for official data. We are not responsible for the privacy practices of those sites.
+        </p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">Security</h3>
+        <p class="mb-6">
+            All data is stored securely and is accessible only to authorized maintainers for debugging and technical improvements.
+        </p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">Contact</h3>
+        <p>
+            For any privacy-related questions or concerns, please <a href="{% url "contact" %}" class="underline text-blue-400">contact us</a>.
+        </p>
+    </section>
+
+{% endblock %}
